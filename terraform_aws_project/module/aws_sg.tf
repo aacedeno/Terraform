@@ -14,6 +14,15 @@ resource "aws_security_group" "allow_http" {
     cidr_blocks = var.cidr_blocks
   }
 
+  #Use .tfvars to put my own ip for SSH
+  ingress {
+    description = "SSH from the internet"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

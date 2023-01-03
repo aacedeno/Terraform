@@ -9,19 +9,6 @@ output "instance_public_ip" {
   description = "The private IP addresses of the web_server instances."
 }
 
-
-#SG outputs
-output "sg_id" {
-  value       = aws_security_group.allow_http.id
-  description = "The private IP address of the main server instance."
-}
-
-output "sg_name" {
-  value       = aws_security_group.allow_http.name
-  description = "The private IP address of the main server instance."
-}
-
-
 #VPC data
 #Join these 2 outputs later
 output "subnet_id_range" {

@@ -22,12 +22,10 @@ variable "user_data_replace" {
 }
 
 
-
 #Webserver sg
 variable "cidr_blocks" {
   default = ["0.0.0.0/0"]
 }
-
 
 
 #VPC 
@@ -39,7 +37,7 @@ variable "public_subnet" {
 variable "public_subnet_cidrs" {
   type        = list(string)
   description = "Public Subnet CIDR values"
-  default     = []  # ["172.31.32.0/20", "172.31.48.0/20", "172.31.64.0/20"]
+  default     = [] # ["172.31.32.0/20", "172.31.48.0/20", "172.31.64.0/20"]
 }
 
 variable "azs" {

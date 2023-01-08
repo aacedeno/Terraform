@@ -1,29 +1,45 @@
 #---root-module
+#all the metaadata about our deployment in this map
+
+locals {
+  deployment = {
+    nodered = { #Keys
+      container_count = length(var.ext_port["nodered"][terraform.workspace])
+      image           = var.image["nodered"][terraform.workspace] #Value
+      int             = 1880
+      ext             = var.ext_port["nodered"][terraform.workspace]
+      container_path  = "/data"
+    }
+    influxdb = {
+      container_count = length(var.ext_port["influxdb"][terraform.workspace])
+      image           = var.image["influxdb"][terraform.workspace]
+      int             = 8086
+      ext             = var.ext_port["influxdb"][terraform.workspace]
+      container_path  = "/var/lib/influxdb" #Found info a influxdb registry docs
+    }
+  }
+}
+
 
 module "image" {
   source   = "./image"
-  image_in = var.image[terraform.workspace] #This will access the key in the image map that coresponds to terraform workspace 
+  for_each = local.deployment #This allows us to access all of our keys and value using the each keyword
+  image_in = each.value.image
 }
 
 #Creating a random combination of characters to give unique suffix to the 1st container
-resource "random_string" "random" {
-  count   = local.container_count #makes 2 random_string resource
-  length  = 4
-  special = false
-  upper   = false
-}
 
-#name is a logiclly value in this instance, just need to use it for referecning
+
 module "container" {
   source      = "./container"
-  count       = local.container_count
-  name_in     = join("-", ["nodered", terraform.workspace, random_string.random[count.index].result]) #using join function to assign the random characters to container
-  image_in    = module.image.image_out                                                                #Image needs to be referenced the image resource
-  int_port_in = var.int_port
-  ext_port_in = var.ext_port[terraform.workspace][count.index] #running count.index on the entire function 
+  count_in    = each.value.container_count
+  for_each    = local.deployment
+  name_in     = each.key                         #using join function to assign the random characters to container
+  image_in    = module.image[each.key].image_out #Image needs to be referenced the image resource
+  int_port_in = each.value.int
+  ext_port_in = each.value.ext
   #allows us to access all the elements in the list based on the # of iterations we've been thorugh 
-  container_path_in = "/data"                   #nodered docs said mount it to the data volume  
-  host_path_in      = "${path.cwd}/noderedvol1" #file path to volume
+  container_path_in = each.value.container_path #nodered docs said mount it to the data volume  
 
 
 }

@@ -20,23 +20,11 @@ module "database" {
   db_storage = 10
   db_engine_version = "5.7.22"
   db_instance_class = "db.t2.micro"
-<<<<<<< HEAD
-  db_name = var.db_name #"rancher"
-  dbuser = var.dbuser #"bobby"
+  db_name = var.db_name 
+  dbuser = var.dbuser 
   dbpassword = var.dbpassword 
-=======
-  db_name = "rancher"
-  dbuser = "bobby"
-  dbpassword = "baers2237"
->>>>>>> bdb105aaccea61416dfcf98445629ca13512f48b
   db_identifier = "aac-db"
   skip_db_snapshot = true   #In prod it should most liekly be set to false
   db_subnet_group_name = module.networking.aws_db_subnet_group_name[0]  #Use count index to specify 1 private subent for db instance
   vpc_security_group_ids = module.networking.db_security_group
-
-<<<<<<< HEAD
 }
-
-=======
-}
->>>>>>> bdb105aaccea61416dfcf98445629ca13512f48b

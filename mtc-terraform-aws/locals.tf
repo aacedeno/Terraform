@@ -32,7 +32,7 @@ locals {
           from        = 3306
           to          = 3306
           protocol    = "tcp"
-          cidr_blocks = [local.vpc_cidr]  #Only want traffic from inside VPC, no external
+          cidr_blocks = [local.vpc_cidr] #Only want traffic from inside VPC, no external
         }
       }
     }

@@ -13,11 +13,11 @@ variable "db_name" {
 }
 
 variable "dbuser" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 variable "dbpassword" {
-  type = string
+  type      = string
   sensitive = true
 }

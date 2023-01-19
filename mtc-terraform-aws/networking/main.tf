@@ -105,7 +105,7 @@ resource "aws_security_group" "aac_sg" {
       cidr_blocks = ingress.value.cidr_blocks
     }
   }
-     egress {
+  egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1" #All protocols
@@ -114,8 +114,8 @@ resource "aws_security_group" "aac_sg" {
 }
 
 resource "aws_db_subnet_group" "aac_rds_subnetgroup" {
-  count = var.db_subnet_group == true ? 1 : 0   #Checks if variable is true and deploys 1 subnet group if true
-  name = "aac_rds_subnetgroup"
+  count      = var.db_subnet_group == true ? 1 : 0 #Checks if variable is true and deploys 1 subnet group if true
+  name       = "aac_rds_subnetgroup"
   subnet_ids = aws_subnet.aac_private_subnet.*.id #Any private subnet can be used 
   tags = {
     Name = "aac_rds_sng"

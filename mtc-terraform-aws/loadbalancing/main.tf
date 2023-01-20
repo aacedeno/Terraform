@@ -13,8 +13,8 @@ resource "aws_lb_target_group" "aac_tg" {
   protocol = var.tg_protocol #"HTTP"
   vpc_id   = var.vpc_id
   lifecycle {
-      ignore_changes = [name]  #Ignores names changes when a new terraform apply is executed
-      create_before_destroy = true #Ensures a new tg is created before the old one is destroyed; this gives the listener a place to go during this process
+    ignore_changes        = [name] #Ignores names changes when a new terraform apply is executed
+    create_before_destroy = true   #Ensures a new tg is created before the old one is destroyed; this gives the listener a place to go during this process
   }
   health_check {
     healthy_threshold   = var.lb_healthy_threshold   #2
